@@ -26,9 +26,7 @@
       'ace-editor': () => 
         import('@/components/aceEditor/main/main.vue'),
       'ace-editor-page': () => 
-        import('@/components/aceEditor/page/page.vue'),
-      'page-404': () =>
-        import('@/components/404/404.vue')
+        import('@/components/aceEditor/page/page.vue')
     },
   })
   export default class App extends Vue {

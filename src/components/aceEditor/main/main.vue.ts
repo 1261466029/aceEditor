@@ -81,10 +81,6 @@ export const AceEditorSupportedModeArray :ModeConfigInterface[] = [{
     mode: 'c_cpp',
     name: '.c'
 }, {
-    suffix: '.cpp',
-    mode: 'c_app',
-    name: '.cpp'
-}, {
     suffix: '.css',
     mode: 'css',
     name: '.css'
