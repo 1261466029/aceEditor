@@ -372,6 +372,18 @@ export default class AceEditor extends Vue {
         default: () => AceEditorSupportedThemeArray.map(({ theme }) => theme)
     })
         public themes!: string[];
+    @Prop({
+        default: !0
+    })
+        public enableTabMenu!: boolean;
+    @Prop({
+        default: !0
+    })
+        public enableThemeChange!: boolean;
+    @Prop({
+        default: !0
+    })
+        public enableModeChange!: boolean;
     @Watch('theme')
         public changeTheme(theme: string) {
             const editor = this.editor

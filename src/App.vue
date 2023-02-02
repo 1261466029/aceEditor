@@ -9,6 +9,11 @@
         :enable-live-autocompletion="!0"
         :enable-snippets="!0"
         :page-limit="[ 1, 10 ]"
+        :modes="[ 'css', 'javascript', 'text' ]"
+        :enable-theme-change="!1"
+        :enable-mode-change="!1"
+        :enable-tab-menu="!1"
+
         @ready="onReady"
         @editor-change="onChange"
         @editor-changeSession="onChangeSession">

@@ -50,7 +50,7 @@ function(acequire, exports, module) {
 
     .ace-behave .ace_marker-layer .ace_readonly-line:after {
       content: '只读';
-      opacity: 0.2;
+      opacity: 0.75;
       transform: scale(.75);
       -webkit-transform: scale(.75);
       float: right;

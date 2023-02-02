@@ -1,9 +1,9 @@
 <div class="ace-editor-container" :class="[ { 'show-header': showHeader, 'show-footer': showFooter }, themeCssClass ]">
     <a-row class="header" type="flex" align="middle" v-show="showHeader">
-        <a-row class="tabs">
+        <a-row class="tabs scroll-box">
             <div class="tab-content ace_marker-layer" v-if="!hasTabsSlot">
                 <a-row type="flex" justify="space-between" align="middle" class="item" :class="{ 'ace_active-line': item.active }" @click.native="changePage(item)" v-for="(item,i) in pages" :key="i">
-                    <a-dropdown :trigger="['contextmenu']">
+                    <a-dropdown :trigger="['contextmenu']" :disabled="!enableTabMenu">
                         <a-row type="flex" align="middle" class="left-side">
                             <a-icon type="code" />
                             <a-tooltip :title="item.title">
@@ -63,57 +63,67 @@
     </div>
 
     <a-row class="footer ace_gutter-active-line" type="flex" align="middle" justify="end" v-show="showFooter">
-        <a-dropdown>
-            <a href="javascript:;" class="item ace_gutter">换行：{{ newLineMode }}</a>
-            <a-menu class="action-menu" slot="overlay">
-                <a-menu-item class="menu-title" :disabled="!0">选择换行模式</a-menu-item>
-                <a-menu-divider />
-                <a-menu-item @click="changeNewLineMode('auto')">
-                    auto
-                </a-menu-item>
-                <a-menu-item @click="changeNewLineMode('unix')">
-                    unix
-                </a-menu-item>
-                <a-menu-item @click="changeNewLineMode('windows')">
-                    windows
-                </a-menu-item>
-            </a-menu>
-        </a-dropdown>
-        <a-dropdown>
-            <a href="javascript:;" class="item ace_gutter">空格：{{ tabSize }}</a>
-            <a-menu class="action-menu" slot="overlay">
-                <a-menu-item class="menu-title" :disabled="!0">选择缩进</a-menu-item>
-                    <a-menu-divider />
-                <a-menu-item @click="changeTabSize(2)">
-                    2 空格
-                </a-menu-item>
-                <a-menu-item @click="changeTabSize(4)">
-                    4 空格
-                </a-menu-item>
-            </a-menu>
-        </a-dropdown>
-        <template v-if="activePage">
-            <a-dropdown>
-                <a href="javascript:;" class="item ace_gutter">语言：{{ activePage.mode }}</a>
-                <a-menu class="action-menu" slot="overlay">
-                    <a-menu-item class="menu-title" :disabled="!0">选择语言</a-menu-item>
-                    <a-menu-divider />
-                    <a-menu-item @click="changePageMode(item.mode)" v-for="(item, i) in supportedModeArray" :key="i">
-                        {{ item.name }}
-                    </a-menu-item>
-                </a-menu>
-            </a-dropdown>
-        </template>
-        <a-dropdown>
-            <a href="javascript:;" class="item ace_gutter">主题：{{ currentTheme }}</a>
-            <a-menu class="action-menu" slot="overlay">
-                <a-menu-item class="menu-title" :disabled="!0">选择主题</a-menu-item>
-                <a-menu-divider />
-                <a-menu-item @click="changeTheme(th.theme)" v-for="(th, i) in supportedThemeArray" :key="i">
-                    {{ th.theme }}
-                </a-menu-item>
-            </a-menu>
-        </a-dropdown>
+        <a-row class="state scroll-box">
+            <div class="state-content">
+                <div class="state-item">
+                    <a-dropdown>
+                        <a href="javascript:;" class="item ace_gutter">换行：{{ newLineMode }}</a>
+                        <a-menu class="action-menu" slot="overlay">
+                            <a-menu-item class="menu-title" :disabled="!0">选择换行模式</a-menu-item>
+                            <a-menu-divider />
+                            <a-menu-item @click="changeNewLineMode('auto')">
+                                auto
+                            </a-menu-item>
+                            <a-menu-item @click="changeNewLineMode('unix')">
+                                unix
+                            </a-menu-item>
+                            <a-menu-item @click="changeNewLineMode('windows')">
+                                windows
+                            </a-menu-item>
+                        </a-menu>
+                    </a-dropdown>
+                </div>
+                <div class="state-item">
+                    <a-dropdown>
+                        <a href="javascript:;" class="item ace_gutter">空格：{{ tabSize }}</a>
+                        <a-menu class="action-menu" slot="overlay">
+                            <a-menu-item class="menu-title" :disabled="!0">选择缩进</a-menu-item>
+                                <a-menu-divider />
+                            <a-menu-item @click="changeTabSize(2)">
+                                2 空格
+                            </a-menu-item>
+                            <a-menu-item @click="changeTabSize(4)">
+                                4 空格
+                            </a-menu-item>
+                        </a-menu>
+                    </a-dropdown>
+                </div>
+                <div class="state-item" v-if="activePage">
+                    <a-dropdown :disabled="!enableModeChange">
+                        <a href="javascript:;" class="item ace_gutter">语言：{{ activePage.mode }}</a>
+                        <a-menu class="action-menu" slot="overlay">
+                            <a-menu-item class="menu-title" :disabled="!0">选择语言</a-menu-item>
+                            <a-menu-divider />
+                            <a-menu-item @click="changePageMode(item.mode)" v-for="(item, i) in supportedModeArray" :key="i">
+                                {{ item.name }}
+                            </a-menu-item>
+                        </a-menu>
+                    </a-dropdown>
+                </div>
+                <div class="state-item">
+                    <a-dropdown :disabled="!enableThemeChange">
+                        <a href="javascript:;" class="item ace_gutter">主题：{{ currentTheme }}</a>
+                        <a-menu class="action-menu" slot="overlay">
+                            <a-menu-item class="menu-title" :disabled="!0">选择主题</a-menu-item>
+                            <a-menu-divider />
+                            <a-menu-item @click="changeTheme(th.theme)" v-for="(th, i) in supportedThemeArray" :key="i">
+                                {{ th.theme }}
+                            </a-menu-item>
+                        </a-menu>
+                    </a-dropdown>
+                </div>
+            </div>
+        </a-row>
     </a-row>
     <slot name="default" />
 </div>
