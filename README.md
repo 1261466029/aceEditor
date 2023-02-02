@@ -1,5 +1,7 @@
 # AceEditor
 
+[Demo 地址](http://116.204.99.136/index.html)
+
 ## Project setup
 ```
 npm install
