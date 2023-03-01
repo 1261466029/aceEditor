@@ -68,6 +68,7 @@ export const formatFreezingRowsRanges2Ranges = (freezingRowsRanges: FreezingRows
 export const includeMode = (mode: string) :string => {
     const namespace = `ace/mode/${mode}`;
     require(`brace/mode/${mode}`);
+    require(`brace/snippets/${mode}`);
 
     return namespace;
 }
