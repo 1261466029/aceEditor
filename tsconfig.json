@@ -18,13 +18,22 @@
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "__ACE_EDITOR__/*": [
+        "src/components/AceEditor"
+      ],
     },
     "lib": [
       "esnext",
       "dom",
       "dom.iterable",
       "scripthost"
+    ]
+  },
+  "vueCompilerOptions": {
+    "target": 2.7,
+    "extensions": [
+      ".vue"
     ]
   },
   "include": [

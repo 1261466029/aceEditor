@@ -1,0 +1,33 @@
+.editor-footer-rows {
+    & > .row {
+        height: 100%;
+        flex-wrap: nowrap;
+        border-top: 1px solid rgba(0,0,0, .2);
+
+        .state {
+            height: 100%;
+            .state-content {
+                display: inline-flex;
+                height: 100%;
+
+                .state-item {
+                    display: inline-flex;
+                    align-items: center;
+                    white-space: nowrap;
+                    height: 100%;
+                    border-left: 1px solid rgba(0,0,0, .2);
+
+                    .item {
+                        position: initial;
+                        cursor: pointer;
+                        padding: 0 1.5em;
+                        height: 100%;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+    }
+}

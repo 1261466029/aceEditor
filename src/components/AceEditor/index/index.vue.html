@@ -1,0 +1,10 @@
+<div class="editor-container" :class="[ config.styleClazz ]">
+    <div class="editor-main">
+        <editor-header class="editor-header">
+            <slot name="header-actions" />
+        </editor-header>
+        <div class="editor-content" ref="editor" />
+        <editor-footer class="editor-footer" />
+    </div>
+    <slot name="default" />
+</div>

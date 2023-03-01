@@ -1,0 +1,39 @@
+.tab-item {
+    position: relative;
+    opacity: .5;
+    flex-wrap: nowrap;
+
+    &.ace_active-line {
+        opacity: 1;
+    }
+
+    .toggle-menu {
+        flex-wrap: nowrap;
+    }
+    
+    .tab-title {
+        width: 6em;
+        padding: 0 .5em;
+    }
+    
+    .tab-title, 
+    .tab-title::v-deep .ant-input, 
+    .tab-title::v-deep .ant-input-prefix, 
+    .tab-title::v-deep .ant-input-suffix {
+        color: inherit;
+    }
+    
+    input.tab-title {
+        background: transparent;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+
+    .actions {
+
+        .icon {
+            flex-shrink: 0;
+        }
+    }
+}

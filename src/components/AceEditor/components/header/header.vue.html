@@ -1,0 +1,20 @@
+<div class="editor-header-rows" v-show="showHeader" >
+    <a-row class="row tab-row" type="flex" justify="space-between" align="middle">
+        <a-tooltip :title="hoverTitle" placement="top">
+            <div class="name">{{ name }}</div>
+        </a-tooltip>
+        <a-row class="tabs scroll-box">
+            <div class="tab-content ace_marker-layer">
+                <editor-tab :page="page" v-for="page in pages" :key="page.id" />
+            </div>
+        </a-row>
+        <a-row class="actions" type="flex" align="middle" v-show="showActions">
+            <a-row class="action-content" type="flex" align="middle" v-if="!hasActionsSlot">
+                <editor-action :trigger="[ 'click' ]" title="选择语言" :items="modeSelections" @select="selectMode($event.type)"  v-show="!addPageDisabled">
+                    <a-icon type="plus" class="add-icon"/>
+                </editor-action>
+            </a-row>
+            <slot :pages="pages" :add-page-disabled="addPageDisabled" :close-page-disabled="closePageDisabled" />
+        </a-row>
+    </a-row>
+</div>

@@ -1,0 +1,12 @@
+<a-dropdown class="editor-action-item" :trigger="trigger" :disabled="disabled">
+    <div class="toggle-action" :style="itemStyle">
+        <slot name="default" />
+    </div>
+    <a-menu class="action-menu scrollbar" slot="overlay">
+        <a-menu-item class="menu-title" :disabled="!0">{{ title }}</a-menu-item>
+        <a-menu-divider />
+        <a-menu-item v-bind="item.attrs" @click="$emit('select', item)" v-for="(item, i) in items" :key="i">
+            {{ item.name }}
+        </a-menu-item>
+    </a-menu>
+</a-dropdown>

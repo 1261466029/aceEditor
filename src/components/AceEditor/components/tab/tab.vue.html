@@ -1,0 +1,15 @@
+<a-row type="flex" justify="space-between" align="middle" :class="{ 'ace_active-line': page.active }" class="tab-item" @click.native="page.active = !0">
+    <editor-action title="选项卡" :items="menuSelections" @select="selectMenuOption" :disabled="toggleDisabled">
+        <a-row type="flex" align="middle" class="toggle-menu">
+            <a-icon type="code" />
+            <a-tooltip :title="page.hoverTitle || page.title">
+                <a-input v-model.trim="page.title" class="tab-title":default-value="page.defaultTitle" :disabled="page.inputTitleDisabled" @blur.native="changePageTitle()" v-if="!page.inputTitleDisabled" />
+                <span class="tab-title" v-else>{{ page.title || page.defaultTitle }}</span>
+            </a-tooltip>
+        </a-row>
+    </editor-action>
+    <a-row type="flex" align="middle" class="actions">
+        <a-icon type="delete" class="close-icon icon" :class="{ disabled: closePageDisabled }" v-if="!closePageDisabled && !page.isFixed" @click="closePage()" />
+        <a-icon type="tag" class="fixed-icon icon" v-if="page.isFixed" @click="page.isFixed = !page.isFixed" />
+    </a-row>
+</a-row>

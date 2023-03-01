@@ -46,6 +46,7 @@ function(acequire, exports, module) {
     
     .ace-behave .ace_marker-layer .ace_readonly-line {
       background: #444444;
+      z-index: 3;
     }
 
     .ace-behave .ace_marker-layer .ace_readonly-line:after {

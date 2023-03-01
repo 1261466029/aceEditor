@@ -1,0 +1,31 @@
+<div class="editor-footer-rows" v-show="showFooter" >
+    <a-row class="row ace_gutter-active-line" type="flex" align="middle" justify="end">
+        <div class="state scroll-box">
+            <div class="state-content">
+                <div class="state-item">
+                    <a href="javascript:;" class="item ace_gutter" :class="{ 'ace_storage ace_support': config.useWrapMode }" @click="setUseWrapMode(!config.useWrapMode)">自动换行</a>
+                </div>
+                <div class="state-item">
+                    <editor-action :trigger="[ 'click' ]" item-style="height: 100%;" title="选择换行模式" :items="newLineModeSelections" @select="setNewLineMode($event.type)">
+                        <a href="javascript:;" class="item ace_gutter">换行：{{ config.newLineMode }}</a>
+                    </editor-action>
+                </div>
+                <div class="state-item">
+                    <editor-action :trigger="[ 'click' ]" item-style="height: 100%;" title="选择缩进" :items="tabSizeSelections" @select="setTabSize($event.type)">
+                        <a href="javascript:;" class="item ace_gutter">空格：{{ config.tabSize }}</a>
+                    </editor-action>
+                </div>
+                <div class="state-item">
+                    <editor-action :trigger="[ 'click' ]" item-style="height: 100%;" title="选择语言" :disabled="!enableModeChange" :items="modeSelections" @select="setMode($event.type)">
+                        <a href="javascript:;" class="item ace_gutter">语言：{{ config.mode }}</a>
+                    </editor-action>
+                </div>
+                <div class="state-item">
+                    <editor-action :trigger="[ 'click' ]" item-style="height: 100%;" title="选择主题" :disabled="!enableThemeChange" :items="themeSelections" @select="setTheme($event.type)">
+                        <a href="javascript:;" class="item ace_gutter">主题：{{ config.theme }}</a>
+                    </editor-action>
+                </div>
+            </div>
+        </div>
+    </a-row>
+</div>

@@ -1,0 +1,38 @@
+.editor-header-rows {
+    & > .row {
+        flex-wrap: nowrap;
+
+        &.tab-row {
+            height: 3em;
+        }
+
+        .name {
+            font-size: .8em;
+            padding: 0 .5em;
+            opacity: .8;
+            flex-shrink: 0;
+        }
+
+        .tabs {
+            box-sizing:border-box;
+            height: 100%;
+            width: 100%;
+            overflow-y: hidden;
+
+            .tab-content {
+                height: 100%;
+                display: inline-flex;
+                .tab-item {
+                    width: 10em;
+                    height: 100%;
+                    padding: 2px 1em;
+                    box-sizing:border-box;
+                }
+            }
+        }
+        .actions {
+            flex-shrink: 0;
+            padding: 0 1em;
+        }
+    }
+}

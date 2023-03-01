@@ -1,6 +1,4 @@
 const path = require('path');
-const compressionWebpackPlugin = require('compression-webpack-plugin');
-const productionGzipExtensions = /\.(js|css|json|txt|html|htm|ico|svg)(\?.*)?$/i;
 
 module.exports = {
     publicPath: '',
@@ -9,9 +7,11 @@ module.exports = {
     productionSourceMap: !1,
     parallel: !0,
     chainWebpack: config => {
-        const svgRule = config.module.rule('svg');
+		const svgRule = config.module.rule('svg');
         svgRule.uses.clear();
         svgRule.use('vue-svg-loader').loader('vue-svg-loader');
+
+        config.resolve.alias.set('__ACE_EDITOR__', path.resolve(__dirname, 'src/components/AceEditor'));
     },
     
     css: {
