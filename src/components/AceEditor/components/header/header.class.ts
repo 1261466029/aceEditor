@@ -50,18 +50,18 @@ export default class AceEditorHeader extends Vue {
         return this.getContext().closePageDisabled
     }
     public get modeSelections() :EditorMenuOption[] {
-        return this.getConfig().supported.modes.map(e => ({
-            name: e.name,
-            type: e.mode
+        return this.getConfig().supported.modes.map(({ name, id }) => ({
+            name,
+            type: id
         }))
     }
 
-    public selectMode(mode: string) {
+    public selectMode(modeId: string) {
         return this.getContext().setPage({
             id: createID(),
             title: '',
             hoverTitle: '',
-            mode,
+            modeId,
             value: '',
             active: !1,
             isFixed: !1,

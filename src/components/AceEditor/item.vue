@@ -20,7 +20,7 @@
         @Prop({
             default: 'text'
         })
-            private mode!: string;
+            private modeId!: string;
         @Prop()
             private value!: string;
         @Prop({
@@ -54,8 +54,8 @@
         @Watch('hoverTitle')
             private watchHoverTitleHandler = this.setWatchHandler('hoverTitle');
 
-        @Watch('mode')
-            private watchModeHandler = this.setWatchHandler('mode');
+        @Watch('modeId')
+            private watchModeIdHandler = this.setWatchHandler('modeId');
 
         @Watch('active')
             private watchActiveHandler = this.setWatchHandler('active');
@@ -85,13 +85,13 @@
         
         public get attrs() : BasicPage {
             const {
-                id, title, mode, value, active, options, isFixed,
+                id, title, modeId, value, active, options, isFixed,
                 toggleDisabled, inputTitleDisabled, hoverTitle,
                 freezingRowsRanges
             } = this;
 
             return {
-                title, mode, value, active, isFixed, options,
+                title, modeId, value, active, isFixed, options,
                 toggleDisabled, inputTitleDisabled,
                 hoverTitle,
                 freezing: {

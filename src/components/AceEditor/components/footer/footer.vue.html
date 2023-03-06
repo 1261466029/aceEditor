@@ -17,7 +17,7 @@
                 </div>
                 <div class="state-item">
                     <editor-action :trigger="[ 'click' ]" item-style="height: 100%;" title="选择语言" :disabled="!enableModeChange" :items="modeSelections" @select="setMode($event.type)">
-                        <a href="javascript:;" class="item ace_gutter">语言：{{ config.mode }}</a>
+                        <a href="javascript:;" class="item ace_gutter">语言：{{ config.modeConfigurationOption.name }}</a>
                     </editor-action>
                 </div>
                 <div class="state-item">

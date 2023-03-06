@@ -24,7 +24,7 @@
         })
             public value!: unknown;
         @Prop()
-            public onlyModes!: string[];
+            public onlyModeIds!: string[];
         @Prop({
             default: 'multiple'
         })
@@ -53,11 +53,11 @@
             }
 
         public get modeSelection() {
-            return EditorModesProvider.filter(({ mode }) =>
-                !this.onlyModes || this.onlyModes.indexOf(mode) !== -1
-            ).map(({ name, mode }) => ({
+            return EditorModesProvider.filter(({ id }) =>
+                !this.onlyModeIds || this.onlyModeIds.indexOf(id) !== -1
+            ).map(({ name, id }) => ({
                 name,
-                value: mode
+                value: id
             }))
         }
 

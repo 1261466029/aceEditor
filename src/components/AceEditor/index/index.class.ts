@@ -18,7 +18,7 @@ import {
     refreshFreezingRowsRanges
 } from '../util';
 import { findIntersectingFreezingRowsRanges, formatAttrs, formatPageTitle, tryToResetFreezingMarkers } from '../util';
-import AceEditor, { BasicPage, EditorConfiguration, EditorEvents, EditorModesProvider, EditorThemesProvider, Page } from '..';
+import AceEditor, { BasicPage, EditorConfiguration, EditorEvents, EditorModesProvider, EditorThemesProvider, ModeConfigurationOption, Page } from '..';
 import { FreezingException } from '@/exception';
     
 const RangeConstructor = acequire('ace/range').Range;
@@ -70,9 +70,9 @@ export default class AceEditorIndex extends Vue implements AceEditor {
     }) 
         public showActions!: boolean;
     @Prop({
-        default: () => EditorModesProvider.map(({ mode }) => mode)
+        default: () => EditorModesProvider.map(({ id }) => id)
     })
-        public modes!: string[];
+        public modeIds!: string[];
     @Prop({
         default: () => EditorThemesProvider.map(({ theme }) => theme)
     })
@@ -104,14 +104,14 @@ export default class AceEditorIndex extends Vue implements AceEditor {
     @Watch('activePage')
         public watchActivePageHandler(page: Page) {
             const { pages, config } = this;
-            const { mode, session } = page;
+            const { modeConfigurationOption, session } = page;
 
             pages.forEach((item) => item.active = item === page);
         
-            config.mode = mode;
             config.tabSize = session.getTabSize();
             config.newLineMode = session.getNewLineMode();
             config.useWrapMode = session.getUseWrapMode();
+            config.modeConfigurationOption = modeConfigurationOption;
             this.changeActiveHistory.push(page);
         }
     @Watch('themes', {
@@ -121,20 +121,18 @@ export default class AceEditorIndex extends Vue implements AceEditor {
         public watchThemesHandler(themes: string[]) {
             this.setSupportedThemeArray(themes);
         }
-    @Watch('modes', {
+    @Watch('modeIds', {
         immediate: !0,
         deep: !0
     })
-        public watchModesHandler(modes: string[]) {
-            this.setSupportedModeArray(modes);
+        public watchModesHandler(modeIds: string[]) {
+            this.setSupportedModeArray(modeIds);
         }
     
     /** 基本配置 */
     public config: EditorConfiguration = {
         // 当前主题
         theme: '',
-        // 当前模式
-        mode: 'text',
         // 页面样式类
         styleClazz: '',
         // tab 空格数
@@ -143,6 +141,8 @@ export default class AceEditorIndex extends Vue implements AceEditor {
         newLineMode: 'auto',
         // 自动换行
         useWrapMode: !1,
+        // 当前模式
+        modeConfigurationOption: getModeConfigurationOption('text') as ModeConfigurationOption,
         // 受支持的配置项
         supported: {
             // 模式数组
@@ -270,11 +270,13 @@ export default class AceEditorIndex extends Vue implements AceEditor {
     }
 
     /** 设置模式 */
-    public setMode(mode: string, passive: boolean = !0) {
+    public setMode(modeId: string, passive: boolean = !0) {
         const { enableModeChange, activePage, config } = this;
-        if (mode && activePage) {
+        const modeConfigurationOption = getModeConfigurationOption(modeId);
+        if (modeId && activePage && modeConfigurationOption) {
             if (passive || enableModeChange) {
-                config.mode = activePage.mode = mode;
+                config.modeConfigurationOption = modeConfigurationOption;
+                activePage.modeId = modeId;
             }
         }
     }
@@ -397,8 +399,8 @@ export default class AceEditorIndex extends Vue implements AceEditor {
     }
 
     /** 获取页面类型序号 */
-    public getPageTypeIndex(mode: string) {
-        return this.pages.filter((item) => item.mode === mode).length;
+    public getPageTypeIndex(modeId: string) {
+        return this.pages.filter((item) => item.id === modeId).length;
     }
 
     private mounted() {
@@ -410,15 +412,17 @@ export default class AceEditorIndex extends Vue implements AceEditor {
     }
 
     private setPageModeHandler(page: Page) {
-        const { mode, typeIndex } = page;
-        const modeConfigurationOption = getModeConfigurationOption(mode)
+        const { modeId, typeIndex } = page;
+        const modeConfigurationOption = getModeConfigurationOption(modeId)
         if (!modeConfigurationOption) {
             return !1;
         }
 
+        const mode = modeConfigurationOption.mode;
+
         page.modeConfigurationOption = modeConfigurationOption;
         if (this.activePage === page) {
-            this.setMode(mode)
+            this.setMode(modeId)
         }
 
         const modeNamespace = includeMode(mode);
@@ -432,7 +436,7 @@ export default class AceEditorIndex extends Vue implements AceEditor {
     private watchPageHandles(page: Page) {
         page.unWatchHandles.push(
             this.$watch(() => page.active, () => this.changePageSession(page)),
-            this.$watch(() => page.mode, () => this.setPageModeHandler(page)),
+            this.$watch(() => page.modeId, () => this.setPageModeHandler(page)),
             this.$watch(() => page.options, (options: Record<string, unknown>) => setSessionOptions(page.session, options), {
                 deep: !0
             })
@@ -517,24 +521,24 @@ export default class AceEditorIndex extends Vue implements AceEditor {
 
     /** 生成页面 */
     private createPage(item: BasicPage) :Page|false|void {
-        const { mode, value, id } = item;
-        const modeNamespace = includeMode(mode);
+        const { modeId, value, id } = item;
 
         if (this.getPageById(id)) {
             return !1;
         }
 
-        const modeConfigurationOption = getModeConfigurationOption(mode);
+        const modeConfigurationOption = getModeConfigurationOption(modeId);
         if (!modeConfigurationOption) {
             return ;
         }
 
-        const session = new EditSession(value ?? '', modeNamespace);
+        const modeNamespace = includeMode(modeConfigurationOption.mode);
 
+        const session = new EditSession(value ?? '', modeNamespace);
         const undoManager = new UndoManager;
         session.setUndoManager(undoManager);
 
-        const typeIndex = this.getPageTypeIndex(mode);
+        const typeIndex = this.getPageTypeIndex(modeId);
         return {
             ... item,
             index: 0,
@@ -626,10 +630,10 @@ export default class AceEditorIndex extends Vue implements AceEditor {
     }
     
     /** 设置编辑器可支持的语言数组 */
-    private setSupportedModeArray(modes: string[]) {
-        this.config.supported.modes = modes.flatMap(mode => {
+    private setSupportedModeArray(modeIds: string[]) {
+        this.config.supported.modes = modeIds.flatMap(id => {
             const result = [];
-            const match = getModeConfigurationOption(mode)
+            const match = getModeConfigurationOption(id)
             if (match) {
                 result.push(match)
             }

@@ -34,9 +34,9 @@ export default class AceEditorFooter extends Vue {
         return this.getContext().showFooter;
     }
     public get modeSelections() :EditorMenuOption[] {
-        return this.getConfig().supported.modes.map(({ name, mode }) => ({
+        return this.getConfig().supported.modes.map(({ name, id }) => ({
             name,
-            type: mode
+            type: id
         }));
     }
     public get enableThemeChange() {
@@ -67,8 +67,8 @@ export default class AceEditorFooter extends Vue {
         this.getContext().setTabSize(tabSize);
     }
 
-    public setMode(mode: string) {
-        this.getContext().setMode(mode, !1);
+    public setMode(modeId: string) {
+        this.getContext().setMode(modeId, !1);
     }
 
     public setTheme(theme: string) {

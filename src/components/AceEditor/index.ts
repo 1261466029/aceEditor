@@ -4,6 +4,7 @@ import { themeProvider } from '@/plugin/AceEditor';
 export type FreezingRowsRange = [ number, number ];
 export type FreezingMarkerRange = [ Range, number ];
 export interface ModeConfigurationOption {
+    id: string;
     suffix: string;
     mode: string;
     name: string;
@@ -15,11 +16,11 @@ export interface ThemeConfigurationOption {
 };
 export interface EditorConfiguration {
     theme: string;
-    mode: string;
     styleClazz: string;
     tabSize: number;
     newLineMode: string;
     useWrapMode: boolean;
+    modeConfigurationOption: ModeConfigurationOption;
     supported: {
         modes: ModeConfigurationOption[];
         themes: ThemeConfigurationOption[];
@@ -37,7 +38,7 @@ export interface BasicPage {
     id: unknown;
     title: string;
     hoverTitle: string;
-    mode: string;
+    modeId: string;
     value: string;
     active: boolean;
     isFixed: boolean;
@@ -91,7 +92,7 @@ export default interface AceEditor {
     showHeader: boolean;
     showFooter: boolean;
     showActions: boolean;
-    modes: string[];
+    modeIds: string[];
     themes: string[];
     toggleDisabled: boolean;
     enableThemeChange: boolean;
@@ -109,7 +110,7 @@ export default interface AceEditor {
     setUseWrapMode: (useWrapMode: boolean) => void;
     setNewLineMode: (newLineMode: string) => void;
     setTabSize: (tabSize: number) => void;
-    setMode: (mode: string, passive: boolean) => void;
+    setMode: (modeId: string, passive: boolean) => void;
     setTheme: (theme: string) => void;
     setFreezingRangesByPageId: (id: unknown, freezingRanges: Range[]) => void;
     addFreezingRangesByPageId: (id: unknown, freezingRanges: Range[]) => void;
@@ -119,10 +120,10 @@ export default interface AceEditor {
     changePageSession: (page: Page, passive: boolean) => void;
     getPageById: (id: unknown) => Page|void;
     getPageEntryById: (id: unknown) => [ string, Page ]|void;
-    getPageTypeIndex: (mode: string) => number;
+    getPageTypeIndex: (modeId: string) => number;
 };
 
-export const EditorModesProvider :ModeConfigurationOption[] = [{"suffix":".c","mode":"c_cpp","name":".c"},{"suffix":".css","mode":"css","name":".css"},{"suffix":"","mode":"dockerfile","name":"dockerfile"},{"suffix":".ejs","mode":"ejs","name":".ejs"},{"suffix":"","mode":"gitignore","defaultTitle":".gitignore","name":".gitignore"},{"suffix":".go","mode":"golang","name":".go"},{"suffix":".html","mode":"html","name":".html"},{"suffix":".java","mode":"java","name":".java"},{"suffix":".js","mode":"javascript","name":".js"},{"suffix":".json","mode":"json","name":".json"},{"suffix":".jsx","mode":"jsx","name":".jsx"},{"suffix":".less","mode":"less","name":".less"},{"suffix":".lua","mode":"lua","name":".lua"},{"suffix":".md","mode":"markdown","name":".md"},{"suffix":".sql","mode":"mysql","name":"mysql"},{"suffix":".sql","mode":"pgsql","name":"pgsql"},{"suffix":".php","mode":"php","name":".php"},{"suffix":".py","mode":"python","name":".py"},{"suffix":".rs","mode":"rust","name":".rs"},{"suffix":".sass","mode":"sass","name":".sass"},{"suffix":".scala","mode":"scala","name":".scala"},{"suffix":".sql","mode":"sql","name":".sql"},{"suffix":".sql","mode":"sqlserver","name":"sqlserver"},{"suffix":".swift","mode":"swift","name":".swift"},{"suffix":".svg","mode":"svg","name":".svg"},{"suffix":".txt","mode":"text","name":".txt"},{"suffix":".ts","mode":"typescript","name":".ts"},{"suffix":".tsx","mode":"tsx","name":".tsx"},{"suffix":".xml","mode":"xml","name":".xml"},{"suffix":".yaml","mode":"yaml","name":".yaml"}];
+export const EditorModesProvider :ModeConfigurationOption[] = [{'id':'c','mode':'c_cpp','name':'c','suffix':'.c'},{'id':'cpp','mode':'c_cpp','name':'cpp','suffix':'.cpp'},{'id':'css','mode':'css','name':'css','suffix':'.css'},{'id':'dockerfile','mode':'dockerfile','name':'dockerfile','suffix':''},{'id':'ejs','mode':'ejs','name':'ejs','suffix':'.ejs'},{'id':'gitignore','mode':'gitignore','name':'gitignore','suffix':''},{'id':'golang','mode':'golang','name':'golang','suffix':'.go'},{'id':'html','mode':'html','name':'html','suffix':'.html'},{'id':'java','mode':'java','name':'java','suffix':'.java'},{'id':'javascript','mode':'javascript','name':'javascript','suffix':'.js'},{'id':'json','mode':'json','name':'json','suffix':'.json'},{'id':'jsx','mode':'jsx','name':'jsx','suffix':'.jsx'},{'id':'less','mode':'less','name':'less','suffix':'.less'},{'id':'lua','mode':'lua','name':'lua','suffix':'.lua'},{'id':'markdown','mode':'markdown','name':'markdown','suffix':'.md'},{'id':'mysql','mode':'mysql','name':'mysql','suffix':'.sql'},{'id':'pgsql','mode':'pgsql','name':'pgsql','suffix':'.sql'},{'id':'php','mode':'php','name':'php','suffix':'.php'},{'id':'python','mode':'python','name':'python','suffix':'.py'},{'id':'rust','mode':'rust','name':'rust','suffix':'.rs'},{'id':'sass','mode':'sass','name':'sass','suffix':'.sass'},{'id':'scala','mode':'scala','name':'scala','suffix':'.scala'},{'id':'sql','mode':'sql','name':'sql','suffix':'.sql'},{'id':'sqlserver','mode':'sqlserver','name':'sqlserver','suffix':'.sql'},{'id':'swift','mode':'swift','name':'swift','suffix':'.swift'},{'id':'svg','mode':'svg','name':'svg','suffix':'.svg'},{'id':'text','mode':'text','name':'text','suffix':'.txt'},{'id':'typescript','mode':'typescript','name':'typescript','suffix':'.ts'},{'id':'tsx','mode':'tsx','name':'tsx','suffix':'.tsx'},{'id':'xml','mode':'xml','name':'xml','suffix':'.xml'},{'id':'yaml','mode':'yaml','name':'yaml','suffix':'.yaml'}];
 
 const EditorThemesProviderInternally: string[] = [ 'ambiance', 'chaos', 'chrome', 'clouds', 'clouds_midnight', 'cobalt', 'crimson_editor', 'dawn', 'dracula', 'dreamweaver', 'eclipse', 'github', 'gob', 'gruvbox', 'idle_fingers', 'iplastic', 'katzenmilch', 'kr_theme', 'kuroir', 'merbivore', 'merbivore_soft', 'mono_industrial', 'monokai', 'pastel_on_dark', 'solarized_dark', 'solarized_light', 'sqlserver', 'terminal', 'textmate', 'tomorrow', 'tomorrow_night', 'tomorrow_night_blue', 'tomorrow_night_bright', 'tomorrow_night_eighties', 'twilight', 'vibrant_ink', 'xcode' ]
 

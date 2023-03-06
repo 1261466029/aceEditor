@@ -19,12 +19,12 @@
       :enable-live-autocompletion="!0"
       :enable-snippets="!0"
       :page-limit="[ 1, 10 ]"
-      :modes="[ 'css', 'javascript', 'text' ]"
-      :enable-theme-change="!1"
-      :enable-mode-change="!1"
-      :enable-tab-menu="!1" >
-      <ace-editor-item mode="javascript" title="测试只读" v-model="readonly" :freezing-rows-ranges="[ [ 0, 6 ], [ 10, 10 ] ]" />
-      <ace-editor-item mode="text" />
+      :mode-ids="[ 'css', 'javascript', 'text' ]"
+      :enable-theme-change="!0"
+      :enable-mode-change="!0"
+      :toggle-disabled="!0" >
+      <ace-editor-item mode-id="javascript" title="测试只读" v-model="readonly" :freezing-rows-ranges="[ [ 0, 6 ], [ 10, 10 ] ]" />
+      <ace-editor-item mode-id="text" />
     </ace-editor>
   </div>
 </template>

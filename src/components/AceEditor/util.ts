@@ -333,8 +333,8 @@ export const getThemeConfigurationOption = (theme: string) =>
     EditorThemesProvider.find((item) => item.theme === theme);
 
 // get mode configuration option
-export const getModeConfigurationOption = (mode: string) =>
-    EditorModesProvider.find((item) => item.mode === mode);
+export const getModeConfigurationOption = (modeId: string) =>
+    EditorModesProvider.find(({ id }) => id === modeId);
 
 // create brace use namespace
 export const createBraceUseNamespace = (prev: string, value: string) :string =>
